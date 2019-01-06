@@ -10,6 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
     password1 = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
     group = serializers.CharField()
+    photo = serializers.ImageField(allow_empty_file=True, use_url=False)
 
     def validate(self, data):
         if data['password1'] != data['password2']:
@@ -33,7 +34,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = (
             'id', 'username', 'password1', 'password2', 'first_name',
-            'last_name', 'email', 'group',
+            'last_name', 'email', 'group', 'photo',
         )
         read_only_fields = ('id',)
 
