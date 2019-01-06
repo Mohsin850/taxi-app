@@ -49,6 +49,17 @@ describe('TripService', () => {
     const request: TestRequest = httpMock.expectOne(`/api/trip/${tripData.nk}/`);
     request.flush(tripData);
   });
+  it('should allow a user to update a trip', () => {
+    tripService.webSocket = jasmine.createSpyObj('webSocket', ['next']);
+    const trip: Trip = TripFactory.create({status: 'IN_PROGRESS'});
+    tripService.updateTrip(trip);
+    expect(tripService.webSocket.next).toHaveBeenCalledWith({
+      type: 'update.trip',
+      data: {
+        ...trip, driver: trip.driver.id, rider: trip.rider.id
+      }
+    });
+  });
   afterEach(() => {
     httpMock.verify();
   });
