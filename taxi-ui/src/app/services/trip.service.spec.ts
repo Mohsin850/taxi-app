@@ -1,0 +1,36 @@
+import {
+  HttpClientTestingModule, HttpTestingController, TestRequest
+} from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+
+import { TripService, Trip } from './trip.service';
+import { TripFactory } from '../testing/factories';
+
+describe('TripService', () => {
+  let tripService: TripService;
+  let httpMock: HttpTestingController;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule
+      ],
+      providers: [ TripService ]
+    });
+    tripService = TestBed.get(TripService);
+    httpMock = TestBed.get(HttpTestingController);
+  });
+  it('should allow a user to get a list of trips', () => {
+    const tripData = [
+      TripFactory.create(),
+      TripFactory.create()
+    ];
+    tripService.getTrips().subscribe(trips => {
+      expect(trips).toEqual(tripData);
+    });
+    const request: TestRequest = httpMock.expectOne('/api/trip/');
+    request.flush(tripData);
+  });
+  afterEach(() => {
+    httpMock.verify();
+  });
+});
