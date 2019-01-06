@@ -9,6 +9,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - './django-taxi:/usr/src/app'
+      - media:/usr/src/app/example_taxi/media
     ports:
       - '8000'
     environment:
