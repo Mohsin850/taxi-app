@@ -41,6 +41,14 @@ describe('TripService', () => {
         }
       });
   });
+  it('should allow a user to get a trip by NK', () => {
+    const tripData = TripFactory.create();
+    tripService.getTrip(tripData.nk).subscribe(trip => {
+      expect(trip).toEqual(tripData);
+    });
+    const request: TestRequest = httpMock.expectOne(`/api/trip/${tripData.nk}/`);
+    request.flush(tripData);
+  });
   afterEach(() => {
     httpMock.verify();
   });

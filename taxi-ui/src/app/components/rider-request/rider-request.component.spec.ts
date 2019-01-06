@@ -1,1 +1,1 @@
-describe('RiderRequest', () => {});
+describe('RiderRequestComponent', () => {});
